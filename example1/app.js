@@ -6,7 +6,8 @@
 /* https://mediasoup.org/documentation/v3/mediasoup/installation/ */
 import express from 'express'
 const app = express()
-
+import dotenv from 'dotenv';
+dotenv.config()
 import https from 'httpolyglot'
 import fs from 'fs'
 import path from 'path'
@@ -32,8 +33,8 @@ const options = {
 }
 
 const httpsServer = https.createServer(options, app)
-httpsServer.listen(4000, () => {
-  console.log('listening on port: ' + 4000)
+httpsServer.listen(process.env.PORT, () => {
+  console.log('listening on port: ' + process.env.PORT)
 })
 
 const io = new Server(httpsServer)
