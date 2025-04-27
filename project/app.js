@@ -430,8 +430,8 @@ const createWebRtcTransport = async (router) => {
       const webRtcTransport_options = {
         listenIps: [
           {
-            ip: '0.0.0.0', // replace with relevant IP address
-            announcedIp: '127.0.0.1',
+            ip: '10.22.3.234', // replace with relevant IP address
+            // announcedIp: '127.0.0.1',
           }
         ],
         enableUdp: true,
