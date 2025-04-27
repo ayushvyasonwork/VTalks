@@ -8,8 +8,10 @@ import express from 'express'
 const app = express()
 import dotenv from 'dotenv';
 dotenv.config()
-import https from 'httpolyglot'
+// import https from 'httpolyglot'
 import fs from 'fs'
+import http from "http";
+
 import path from 'path'
 const __dirname = path.resolve()
 
@@ -27,16 +29,15 @@ app.get('*', (req, res, next) => {
 app.use('/sfu/:room', express.static(path.join(__dirname, 'public')))
 
 // SSL cert for HTTPS access
-const options = {
-  key: fs.readFileSync('./server/ssl/key.pem', 'utf-8'),
-  cert: fs.readFileSync('./server/ssl/cert.pem', 'utf-8')
-}
+// const options = {
+//   key: fs.readFileSync('./server/ssl/key.pem', 'utf-8'),
+//   cert: fs.readFileSync('./server/ssl/cert.pem', 'utf-8')
+// }
 
-const httpsServer = https.createServer(options, app)
+const httpsServer = http.createServer(app);
 httpsServer.listen(process.env.PORT, () => {
-  console.log('listening on port: ' + process.env.PORT)
-})
-
+  console.log(`Server running at http://localhost:${process.env.PORT}/`);
+});
 const io = new Server(httpsServer)
 
 // socket.io namespace (could represent a room?)
