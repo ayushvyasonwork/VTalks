@@ -1,181 +1,118 @@
-for demo video : https://drive.google.com/file/d/14T71YRvoSrbwhy68DV3ZDBonUfIb5q9f/view?usp=drive_link
+# UTalk - Real-Time Video Conferencing App
 
-Project Type:
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Real-time video conferencing application (SFU - Selective Forwarding Unit architecture)
+A real-time video conferencing application built with Node.js, Socket.IO, and the powerful Mediasoup SFU (Selective Forwarding Unit) for efficient media stream handling.
 
-Tech Stack:
+### [🎬 Watch the Demo Video](https://drive.google.com/file/d/14T71YRvoSrbwhy68DV3ZDBonUfIb5q9f/view?usp=drive_link)
 
-JavaScript (ES Modules), Node.js, Express, Socket.IO, Mediasoup,HTML, CSS
+---
 
-Architecture:
+## 📖 Table of Contents
 
-Client-Server architecture with a Selective Forwarding Unit (SFU). The server (Node.js with Express) manages Mediasoup workers, routers, transports, producers, and consumers. Clients (browser-based) connect via Socket.IO to negotiate media streams and interact with the Mediasoup server.
+-   [About The Project](#about-the-project)
+-   [Key Features](#-key-features)
+-   [Architecture](#-architecture)
+-   [Tech Stack](#-tech-stack)
+-   [Getting Started](#-getting-started)
+    -   [Prerequisites](#prerequisites)
+    -   [Installation](#installation)
+-   [Usage](#-usage)
+-   [Contributing](#-contributing)
+-   [License](#-license)
 
-Key Features:
+## About The Project
 
-1. Room Management: Create and join video conference rooms.
+Converse is a WebRTC video conferencing application that demonstrates the power of a Selective Forwarding Unit (SFU) architecture. Unlike peer-to-peer (mesh) architectures that can be resource-intensive, the SFU model allows for scalable and efficient group video calls by having each participant send their media stream to a central server, which then forwards it to the other participants. This project uses **Mediasoup** as the SFU for robust, low-latency media routing.
 
-2. Media Streaming: Transmit and receive audio and video streams.
+## ✨ Key Features
 
-3. SFU Architecture: Efficiently forward media streams to participants in a room.
+-   **Room Management**: Dynamically create and join video conference rooms.
+-   **High-Quality Media Streaming**: Transmit and receive multiple audio and video streams simultaneously.
+-   **SFU Architecture**: Efficiently forwards media streams to all participants in a room, saving client-side bandwidth.
+-   **Real-time Signaling**: Uses Socket.IO for fast and reliable communication between clients and the server.
+-   **Simple UI**: A clean interface to display local and remote video feeds.
 
-4. Socket.IO Integration: Real-time communication between clients and server.
+## 🏗️ Architecture
 
-5. Basic UI: Display local and remote video feeds.
+The application uses a client-server model. The **Node.js server** acts as the signaling layer and manages the **Mediasoup SFU**.
 
-Complexity Level:
+1.  **Signaling**: Clients connect to the server via **Socket.IO** to handle events like joining rooms, negotiating media capabilities, and managing streams.
+2.  **Media Routing**: The server creates Mediasoup **Workers**, **Routers**, and **Transports**.
+3.  **Client Connection**: Each client establishes a transport connection to the server's router.
+4.  **Streaming**:
+    -   A client sending media creates a **Producer** on the server.
+    -   The server then creates a **Consumer** for all other clients in the room, allowing them to receive the media stream.
 
-Medium
+This SFU approach minimizes the upload bandwidth required by each client, as they only need to send their stream once to the server.
 
+## 🛠️ Tech Stack
 
-Objective: Create a basic video conferencing application with room creation, joining, and peer-to-peer video streaming using Mediasoup and Socket.IO.
+-   **Backend**: Node.js, Express
+-   **Real-time Communication**: Socket.IO
+-   **WebRTC/SFU**: Mediasoup
+-   **Frontend**: HTML5, CSS3, JavaScript (ES Modules)
+-   **Client-side Mediasoup Library**: `mediasoup-client`
 
-Implementation Steps:
+## 🚀 Getting Started
 
-1. Server-Side (Node.js with Express and Mediasoup):
+Follow these steps to set up and run the project locally.
 
-   a. Setup:
-      - Create a new Node.js project: `npm init -y`
-      
-      - Install dependencies: `npm install express socket.io mediasoup dotenv`
-      
-      - Create a `.env` file to store environment variables (e.g., PORT).
+### Prerequisites
 
-   b. Mediasoup Worker:
-      
-      - Implement the `createWorker` function to initialize a Mediasoup worker.
-      
-      - Handle worker `died` events for error handling.
+-   Node.js (v16 or later)
+-   npm (Node Package Manager)
 
-   c. Router and Room Management:
-      
-      - Implement room creation logic. Use a simple object (`rooms`) to store room information (Router, peer IDs).
-      
-      - When a client joins, create a Mediasoup Router for the room if it doesn't exist.
+### Installation
 
-   d. Transport Creation:
-      
-      - Implement functions to create Mediasoup Transports (WebRtcTransport) for each client.
-      
-      - Handle `dtlsParameters` negotiation between client and server.
+1.  **Clone the repository:**
+    ```sh
+    git clone [https://github.com/ayushvyasonwork/your-repo-name.git](https://github.com/ayushvyasonwork/your-repo-name.git)
+    cd your-repo-name
+    ```
 
-   e. Producer and Consumer Logic:
-      
-      - Implement functions to create Mediasoup Producers when a client publishes media.
-      
-      - Implement functions to create Mediasoup Consumers for each client to receive media from other producers in the room.
-      
-      - Manage `producers`, `consumers`, and `transports` arrays to track active media connections.
+2.  **Install Server Dependencies:**
+    ```sh
+    # Navigate to the server directory if you have one, otherwise run in root
+    npm install express socket.io mediasoup dotenv
+    ```
 
-   f. Socket.IO Integration:
-      
-      - Use Socket.IO to handle client connections, disconnections, and signaling.
-      
-      - Implement Socket.IO event handlers for:
-      
-         - `join-room`: Client joins a room.
-         
-         - `create-transport`: Client requests a transport to be created.
-         
-         - `connect-transport`: Client provides DTLS parameters to connect the transport.
-         
-         - `produce`: Client starts producing media.
-         
-         - `consume`: Client requests to consume media from another peer.
+3.  **Setup Client Libraries:**
+    The client-side uses `mediasoup-client`. Ensure you have it included in your HTML, typically via a CDN or by bundling it.
+    ```html
+    <script src="/path/to/mediasoup-client.min.js"></script>
+    ```
 
-   g. Error Handling:
-      
-      - Implement basic error handling for Mediasoup operations.
+4.  **Configure Environment Variables:**
+    Create a `.env` file in the root of the server directory and add the following variables:
+    ```
+    PORT=3000
+    ```
 
-   AI Coding Assistant Instructions:
-      
-      - "Create a Node.js server using Express and Socket.IO."
-      
-      - "Implement the `createWorker` function using the Mediasoup library."
-      
-      - "Implement Socket.IO event handlers for `join-room`, `create-transport`, `connect-transport`, `produce`, and `consume`."
-      
-      - "Use a simple object to store room information (Router, peer IDs)."
-      
-      - "Implement Mediasoup Transport, Producer, and Consumer creation logic."
+## 🏃 Usage
 
-2. Client-Side (HTML, JavaScript):
+1.  **Start the server:**
+    ```sh
+    node server.js
+    ```
+    Your server should now be running on `http://localhost:3000`.
 
-   a. HTML Structure:
-      
-      - Create a basic HTML page with:
-      
-         - A local video element (`<video id="localVideo">`).
-         
-         - A remote video container (`<div id="videoContainer">`).
+2.  **Launch the client:**
+    Open the `index.html` file in your browser. You can open it in multiple tabs or windows to simulate multiple users.
 
-   b. JavaScript Logic:
-      
-      - Use `mediasoup-client` library to interact with the Mediasoup server.
-      
-      - Implement functions for:
-      
-         - Connecting to the Socket.IO server.
-         
-         - Joining a room (sending `join-room` event).
-         
-         - Creating a Mediasoup device.
-         
-         - Creating Transports (sending `create-transport` event).
-         
-         - Connecting Transports (sending `connect-transport` event).
-         
-         - Producing media (using `getUserMedia` and creating a Producer).
-         
-         - Consuming media (creating Consumers and displaying remote video streams).
+3.  **Join a room:**
+    Enter a room name and join. Verify that video streams are correctly transmitted and received between all peers.
 
+## 🤝 Contributing
 
-   c. Media Handling:
+Contributions are welcome! If you have suggestions to improve the project, please feel free to fork the repository and create a pull request.
 
-      - Use `getUserMedia` to capture audio and video from the user's webcam and microphone.
-      
-      - Attach local media stream to the local video element.
-      
-      - Dynamically create remote video elements and attach remote media streams to them.
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
 
-   AI Coding Assistant Instructions:
-      
-      - "Create an HTML page with a local video element and a remote video container."
-      
-      - "Use the `mediasoup-client` library to connect to the Socket.IO server."
-      
-      - "Implement functions for joining a room, creating a Mediasoup device, and creating Transports."
-      
-      - "Implement functions for producing and consuming media streams."
-      
-      - "Use `getUserMedia` to capture local media and attach it to the local video element."
-      
-      - "Dynamically create remote video elements and attach remote media streams to them."
+## 📄 License
 
-
-3. Testing:
-
-   a. Run the Node.js server.
-
-   b. Open the HTML page in multiple browser windows or tabs.
-
-   c. Join the same room in each window/tab.
-
-   d. Verify that video streams are correctly transmitted and received between peers.
-
-5. Simplifications:
-
-   a. No authentication or user management.
-
-   b. No advanced features like screen sharing, chat, or recording.
-
-   c. Minimal UI.
-
-   d. Single Mediasoup worker.
-
-7. Deployment:
-
-   a. Deploy the Node.js server to a cloud platform (e.g., Heroku, AWS).
-
-   b. Host the HTML/JavaScript files on a static file server (e.g., Netlify, Vercel).
+Distributed under the MIT License. See `LICENSE` for more information.
