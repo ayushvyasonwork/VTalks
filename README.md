@@ -67,8 +67,8 @@ Follow these steps to set up and run the project locally.
 
 1.  **Clone the repository:**
     ```sh
-    git clone [https://github.com/ayushvyasonwork/your-repo-name.git](https://github.com/ayushvyasonwork/your-repo-name.git)
-    cd your-repo-name
+    git clone [https://github.com/ayushvyasonwork/VTalks.git](https://github.com/ayushvyasonwork/VTalks.git)
+    cd project
     ```
 
 2.  **Install Server Dependencies:**
