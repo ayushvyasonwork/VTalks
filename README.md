@@ -23,7 +23,7 @@ A real-time video conferencing application built with Node.js, Socket.IO, and th
 
 ## About The Project
 
-Converse is a WebRTC video conferencing application that demonstrates the power of a Selective Forwarding Unit (SFU) architecture. Unlike peer-to-peer (mesh) architectures that can be resource-intensive, the SFU model allows for scalable and efficient group video calls by having each participant send their media stream to a central server, which then forwards it to the other participants. This project uses **Mediasoup** as the SFU for robust, low-latency media routing.
+VTalks is a WebRTC video conferencing application that demonstrates the power of a Selective Forwarding Unit (SFU) architecture. Unlike peer-to-peer (mesh) architectures that can be resource-intensive, the SFU model allows for scalable and efficient group video calls by having each participant send their media stream to a central server, which then forwards it to the other participants. This project uses **Mediasoup** as the SFU for robust, low-latency media routing.
 
 ## ✨ Key Features
 
