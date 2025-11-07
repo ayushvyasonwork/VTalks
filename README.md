@@ -51,7 +51,7 @@ This SFU approach minimizes the upload bandwidth required by each client, as the
 -   **Backend**: Node.js, Express
 -   **Real-time Communication**: Socket.IO
 -   **WebRTC/SFU**: Mediasoup
--   **Frontend**: HTML5, CSS3, JavaScript (ES Modules)
+-   **Frontend**: NextJS
 -   **Client-side Mediasoup Library**: `mediasoup-client`
 
 ## 🚀 Getting Started
